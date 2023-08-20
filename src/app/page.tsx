@@ -17,7 +17,7 @@ const Dashboard = () => {
     <>
       {
         blogs.length > 0 ?
-          <div className='flex flex-col md:flex-row gap-4 m-4' >
+          <div className='flex flex-col md:flex-row flex-wrap box-border gap-2 m-4 overflow-hidden' >
             {
               blogs.map((blog: Blog) => <BlogCard key={blog.id} data={blog} />)
             }

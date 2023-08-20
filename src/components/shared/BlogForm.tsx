@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import { createBlog, editBlogById } from '@/lib/blogs';
+import Button from './Button';
 
 interface BlogFormProps {
     initialValues?: { id: number; title: string; content: string };
@@ -10,11 +11,17 @@ interface BlogFormProps {
 const BlogForm: React.FC<BlogFormProps> = ({ initialValues }) => {
     const isEditing = !!initialValues?.id
     const router = useRouter();
-    const [title, setTitle] = useState(initialValues?.title || '');
-    const [content, setContent] = useState(initialValues?.content || '');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
     const [error, setError] = useState('');
 
-    console.log("isedignnigng",isEditing)
+    useEffect(() => {
+        if (initialValues) {
+            const { title, content } = initialValues
+            setTitle(title)
+            setContent(content)
+        }
+    }, [initialValues])
 
     const handleSubmit = () => {
         if (title.trim() === '' || content.trim() === '') {
@@ -22,15 +29,22 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialValues }) => {
         } else {
             if (isEditing) {
                 editBlogById(initialValues.id, title, content);
+                router.back();
+
             } else {
                 createBlog(title, content);
+                router.push(ROUTES.DASHBOARD);
+
             }
-            router.push(ROUTES.DASHBOARD);
         }
     };
 
+    const handleCancel = () => {
+        router.back()
+    }
+
     return (
-        <div className="flex flex-col gap-4 p-4 border rounded-md shadow-md">
+        <div className="flex flex-col gap-4 p-4 border rounded-md my-4">
             <div>
                 <label className="text-lg font-medium">Title</label>
                 <input
@@ -45,16 +59,14 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialValues }) => {
                 <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full h-32 p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+                    className="w-full h-48 p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-500"
                 />
             </div>
             {error && <p className="text-red-500">{error}</p>}
-            <button
-                onClick={handleSubmit}
-                className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-            >
-                {isEditing ? 'Update' : 'Submit'}
-            </button>
+            <div className='flex flex-col md:flex-row gap-2'>
+                <Button onClickHandler={handleSubmit} title={isEditing ? 'Update' : 'Submit'} color="blue" />
+                <Button onClickHandler={handleCancel} title='Cancel' color="red" />
+            </div>
         </div>
     );
 };

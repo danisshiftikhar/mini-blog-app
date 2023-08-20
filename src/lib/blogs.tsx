@@ -3,10 +3,23 @@ import { BLOGS_KEY } from "@/constants";
 import { Blog } from "@/types";
 
 
+const sortingOnDate = (dataArray: string): Blog[] => {
+    const tempData: Blog[] = JSON.parse(dataArray)
+    tempData.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        console.log("dataeA", dateA, "dateA.getTime()", dateA.getTime())
+        return dateA.getTime() - dateB.getTime();
+    });
+
+    return tempData
+
+
+}
 // Function to get all blogs
 const getAllBlogs = (): Blog[] => {
     const blogsJSON = localStorage.getItem(BLOGS_KEY);
-    const blogs: Blog[] = blogsJSON ? JSON.parse(blogsJSON) : [];
+    const blogs: Blog[] = blogsJSON ? sortingOnDate(blogsJSON) : [];
     return blogs;
 }
 
@@ -36,6 +49,14 @@ const editBlogById = (blogId: number, newTitle: string, newContent: string): voi
         if (index !== -1) {
             blogs[index].title = newTitle;
             blogs[index].content = newContent;
+            blogs[index].date = new Date(Date.now()).toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+            })
             localStorage.setItem(BLOGS_KEY, JSON.stringify(blogs));
         }
     }
@@ -56,7 +77,7 @@ const createBlog = (title: string, content: string): void => {
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
-          })
+        })
     };
     blogs.push(newBlog);
     localStorage.setItem(BLOGS_KEY, JSON.stringify(blogs));

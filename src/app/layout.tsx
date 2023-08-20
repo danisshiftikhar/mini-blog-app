@@ -17,9 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} >
         <AppBar />
-        {children}</body>
+        <div className='px-4'>
+          {children}
+        </div>
+      </body>
     </html>
   )
 }

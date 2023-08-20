@@ -9,7 +9,7 @@ const AppBar = () => {
     const pathname = usePathname()
     const isPageAddBlog = pathname.includes(ROUTES.ADD_BLOG)
     return (
-        <div className='w-full bg-blue-600 text-xl p-4 box-border  font-semibold flex justify-between' >
+        <div className='w-full bg-blue-600 text-xl p-4 box-border font-semibold flex justify-between' >
             <Link href={ROUTES.DASHBOARD} className='cursor-pointer'>Mini Blog App</Link>
             {!isPageAddBlog && <Link href={ROUTES.ADD_BLOG} className='cursor-pointer'>
                 + Add Blog

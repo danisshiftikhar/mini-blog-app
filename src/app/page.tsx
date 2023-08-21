@@ -1,16 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getAllBlogs } from "@/lib/blogs";
-import { Blog } from "@/types";
+import { IBlog } from "@/types";
 import BlogsList from "@/components/dashboard/BlogsList";
 
 const Dashboard = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogs, setBlogs] = useState<IBlog[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const allBlogs = getAllBlogs();
     setBlogs(allBlogs);
+    setLoading(false);
   }, []);
 
   const handleSearchInputChange = (
@@ -23,7 +25,7 @@ const Dashboard = () => {
     blog.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (!blogs.length) {
+  if (loading) {
     return <div>Loading ...</div>;
   }
 

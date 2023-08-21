@@ -1,28 +1,20 @@
 "use client";
 import { BLOGS_KEY } from "@/constants";
-import { Blog } from "@/types";
+import { IBlog } from "@/types";
+import { currentDataWTime, sortingOnDate } from "@/utils";
 
-const sortingOnDate = (dataArray: string): Blog[] => {
-  const tempData: Blog[] = JSON.parse(dataArray);
-  tempData.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateA.getTime() - dateB.getTime();
-  });
 
-  return tempData;
-};
 // Function to get all blogs
-const getAllBlogs = (): Blog[] => {
+const getAllBlogs = (): IBlog[] => {
   const blogsJSON = localStorage.getItem(BLOGS_KEY);
-  const blogs: Blog[] = blogsJSON ? sortingOnDate(blogsJSON) : [];
+  const blogs: IBlog[] = blogsJSON ? sortingOnDate(blogsJSON) : [];
   return blogs;
 };
 
 // Function to get a blog by id
-const getBlogById = (blogId: number): Blog | undefined => {
+const getBlogById = (blogId: number): IBlog | undefined => {
   const blogsJSON = localStorage.getItem(BLOGS_KEY);
-  const blogs: Blog[] = blogsJSON ? JSON.parse(blogsJSON) : [];
+  const blogs: IBlog[] = blogsJSON ? JSON.parse(blogsJSON) : [];
   return blogs.find((blog) => blog.id === blogId);
 };
 
@@ -30,22 +22,13 @@ const getBlogById = (blogId: number): Blog | undefined => {
 const deleteBlogById = (blogId: number): void => {
   const blogsJSON = localStorage.getItem(BLOGS_KEY);
   if (blogsJSON) {
-    let blogs: Blog[] = JSON.parse(blogsJSON);
+    let blogs: IBlog[] = JSON.parse(blogsJSON);
     blogs = blogs.filter((blog) => blog.id !== blogId);
     localStorage.setItem(BLOGS_KEY, JSON.stringify(blogs));
   }
 };
 
-const currentDataWTime = () => {
-  return new Date(Date.now()).toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-};
+
 // Function to edit a blog by id
 const editBlogById = (
   blogId: number,
@@ -54,7 +37,7 @@ const editBlogById = (
 ): void => {
   const blogsJSON = localStorage.getItem(BLOGS_KEY);
   if (blogsJSON) {
-    let blogs: Blog[] = JSON.parse(blogsJSON);
+    let blogs: IBlog[] = JSON.parse(blogsJSON);
     const index = blogs.findIndex((blog) => blog.id === blogId);
     if (index !== -1) {
       blogs[index].title = newTitle;
@@ -68,8 +51,8 @@ const editBlogById = (
 // Function to create a new blog
 const createBlog = (title: string, content: string): void => {
   const blogsJSON = localStorage.getItem(BLOGS_KEY);
-  const blogs: Blog[] = blogsJSON ? JSON.parse(blogsJSON) : [];
-  const newBlog: Blog = {
+  const blogs: IBlog[] = blogsJSON ? JSON.parse(blogsJSON) : [];
+  const newBlog: IBlog = {
     id: Date.now(),
     title: title,
     content: content,

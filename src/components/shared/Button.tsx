@@ -8,7 +8,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ onClickHandler, title, color }) => {
     return (
-        <button onClick={onClickHandler} className={`bg-${color}-500 px-3 py-2 w-full md:w-1/2 rounded-md cursor-pointer`}>
+        <button onClick={onClickHandler} className={`${color} px-3 py-2 w-full md:w-1/2 rounded-md cursor-pointer text-white`}>
             {title}
         </button>
     )

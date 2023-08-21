@@ -64,8 +64,8 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialValues }) => {
             </div>
             {error && <p className="text-red-500">{error}</p>}
             <div className='flex flex-col md:flex-row gap-2'>
-                <Button onClickHandler={handleSubmit} title={isEditing ? 'Update' : 'Submit'} color="blue" />
-                <Button onClickHandler={handleCancel} title='Cancel' color="red" />
+                <Button onClickHandler={handleSubmit} title={isEditing ? 'Update' : 'Submit'} color="bg-blue-500" />
+                <Button onClickHandler={handleCancel} title='Cancel' color="bg-red-500" />
             </div>
         </div>
     );

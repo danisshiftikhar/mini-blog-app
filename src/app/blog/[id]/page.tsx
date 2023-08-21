@@ -37,8 +37,8 @@ const Blog = () => {
                 {blog?.date}
             </div>
             <div className='flex flex-col md:flex-row gap-2'>
-                <Button onClickHandler={updateHandler} title='Edit' color="blue" />
-                <Button onClickHandler={deleteHandler} title='Delete' color="red" />
+                <Button onClickHandler={updateHandler} title='Edit' color="bg-blue-500" />
+                <Button onClickHandler={deleteHandler} title='Delete' color="bg-red-500" />
             </div>
         </div>
     )
